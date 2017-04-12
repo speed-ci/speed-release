@@ -4,7 +4,7 @@ FROM docker-artifactory-poc.sln.nc/node:6.10.1-alpine
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-RUN apk --no-cache add git
+RUN apk --no-cache add git bash
 
 RUN npm config set registry https://artifactory-poc.sln.nc/artifactory/api/npm/npm/ -g
 
@@ -18,6 +18,7 @@ RUN npm install -g git-semver-tags \
 RUN npm ls -g --depth=0
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
 
 CMD ["/docker-entrypoint.sh"]
