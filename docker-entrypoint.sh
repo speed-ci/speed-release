@@ -8,7 +8,7 @@ git config --get remote.origin.url
 git remote -v
 git status
 
-MY_REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token\:xxxxxxxxxxxxxxxxxxxx\@//g')
+MY_REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token:.*@//g')
 echo $MY_REPO_URL
 
 MY_APP_NAME=${MY_REPO_URL##*/}
