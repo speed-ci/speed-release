@@ -19,3 +19,6 @@ cat CHANGELOG.md
 echo "semver"
 NEXT_TAG=`semver $OLD_TAG -i $INCREMENT`
 echo $NEXT_TAG
+
+echo "git tag"
+git status
