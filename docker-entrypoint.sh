@@ -4,8 +4,6 @@ set -e
 APP_NAME=$CI_PROJECT_NAME
 REPO_URL=$CI_PROJECT_URL
 
-env
-
 echo "git-semver-tags"
 git-semver-tags | xargs echo
 LAST_TAG=$(git-semver-tags | sed '1 ! d')
