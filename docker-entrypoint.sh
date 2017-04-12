@@ -4,7 +4,6 @@ set -e
 APP_NAME=$CI_PROJECT_NAME
 REPO_URL=$CI_PROJECT_URL
 
-git config user.name
 git config --get remote.origin.url
 git remote -v
 git status
