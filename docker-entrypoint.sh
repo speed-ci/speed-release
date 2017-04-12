@@ -6,7 +6,7 @@ git status
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token:.*@//g')
 echo $REPO_URL
 
-APP_NAME=${MY_REPO_URL##*/}
+APP_NAME=${REPO_URL##*/}
 echo $APP_NAME
 
 echo "git-semver-tags"
