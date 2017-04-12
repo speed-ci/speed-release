@@ -1,18 +1,13 @@
 #!/bin/bash
 set -e
 
-APP_NAME=$CI_PROJECT_NAME
-REPO_URL=$CI_PROJECT_URL
-
-git config --get remote.origin.url
-git remote -v
 git status
 
-MY_REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token:.*@//g')
-echo $MY_REPO_URL
+REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token:.*@//g')
+echo $REPO_URL
 
-MY_APP_NAME=${MY_REPO_URL##*/}
-echo $MY_APP_NAME
+APP_NAME=${MY_REPO_URL##*/}
+echo $APP_NAME
 
 echo "git-semver-tags"
 OLD_TAG=$(git-semver-tags | sed '1 ! d')
