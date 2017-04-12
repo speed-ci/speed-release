@@ -4,11 +4,12 @@ set -e
 APP_NAME=$CI_PROJECT_NAME
 REPO_URL=$CI_PROJECT_URL
 
+git config user.name
 git config --get remote.origin.url
 git remote -v
 git status
 
-MY_REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token:xxxxxxxxxxxxxxxxxxxx@//g')
+MY_REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token\:xxxxxxxxxxxxxxxxxxxx\@//g')
 echo $MY_REPO_URL
 
 MY_APP_NAME=${MY_REPO_URL##*/}
