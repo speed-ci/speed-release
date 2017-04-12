@@ -7,7 +7,7 @@ REPO_URL=$CI_PROJECT_URL
 env
 
 echo "git-semver-tags"
-TAGS=$(git-semver-tags)
+TAGS=$(git-semver-tags | sed '1 ! d')
 echo $TAGS
 
 echo "conventional-recommended-bump"
