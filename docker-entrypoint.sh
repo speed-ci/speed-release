@@ -7,8 +7,8 @@ REPO_URL=$CI_PROJECT_URL
 env
 
 echo "git-semver-tags"
-TAGS=$(git-semver-tags | sed '1 ! d')
-echo $TAGS
+LAST_TAG=$(git-semver-tags | sed '1 ! d')
+echo $LAST_TAG
 
 echo "conventional-recommended-bump"
 INCREMENT=$(conventional-recommended-bump -p angular)
