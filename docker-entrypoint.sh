@@ -7,6 +7,7 @@ REPO_URL=$CI_PROJECT_URL
 env
 
 echo "git-semver-tags"
+git-semver-tags | xargs echo
 LAST_TAG=$(git-semver-tags | sed '1 ! d')
 echo $LAST_TAG
 
