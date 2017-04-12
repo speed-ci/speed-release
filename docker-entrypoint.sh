@@ -4,6 +4,7 @@ set -e
 APP_NAME=$CI_PROJECT_NAME
 REPO_URL=$CI_PROJECT_URL
 
+git remote -v
 git status
 
 echo "git-semver-tags"
