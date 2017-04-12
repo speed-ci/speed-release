@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-git-semver-tags
-conventional-recommended-bump
+echo $(git-semver-tags)
+echo $(conventional-recommended-bump)
 git-changelog
 semver
