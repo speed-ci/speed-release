@@ -2,12 +2,11 @@
 set -e
 
 git status
+git clean -f
+git status
 
-REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/gitlab-ci-token:.*@//g')
-echo $REPO_URL
-
+REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 APP_NAME=${REPO_URL##*/}
-echo $APP_NAME
 
 echo "git-semver-tags"
 OLD_TAG=$(git-semver-tags | sed '1 ! d')
