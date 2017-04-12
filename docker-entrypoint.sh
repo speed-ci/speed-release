@@ -22,3 +22,5 @@ echo $NEXT_TAG
 
 echo "git tag"
 git status
+git clean -f
+git status
