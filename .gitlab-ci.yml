@@ -1,0 +1,10 @@
+stages:
+  - dockerize
+dockerize:
+  stage: dockerize
+  script:
+    - dockerize
+  only:
+  - master    
+  tags:
+    - sln
