@@ -5,17 +5,17 @@ APP_NAME=$CI_PROJECT_NAME
 REPO_URL=$CI_PROJECT_URL
 
 echo "git-semver-tags"
-git-semver-tags | xargs echo
-LAST_TAG=$(git-semver-tags | sed '1 ! d')
-echo $LAST_TAG
+OLD_TAG=$(git-semver-tags | sed '1 ! d')
+echo $OLD_TAG
 
 echo "conventional-recommended-bump"
 INCREMENT=$(conventional-recommended-bump -p angular)
 echo $INCREMENT
 
 echo "git-changelog"
-git-changelog -a $APP_NAME -r $REPO_URL
+git-changelog -a $APP_NAME -n $OLD_TAG -r $REPO_URL
 cat CHANGELOG.md
 
 echo "semver"
-semver -i $INCREMENT
+NEXT_TAG=`semver $OLD_TAG -i $INCREMENT`
+echo $NEXT_TAG
