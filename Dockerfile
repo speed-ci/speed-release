@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 VOLUME /usr/src/app
 
-RUN apk --no-cache add git curl bash
+RUN apk --no-cache add git curl jq bash
 
 RUN npm config set registry https://artifactory-poc.sln.nc/artifactory/api/npm/npm/ -g
 
@@ -13,8 +13,7 @@ RUN npm config set registry https://artifactory-poc.sln.nc/artifactory/api/npm/n
 RUN npm install -g git-semver-tags \
                    conventional-recommended-bump \
                    semver \
-                   git-changelog \
-                   cli-gitlab
+                   git-changelog
 
 RUN npm ls -g --depth=0
 
