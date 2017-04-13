@@ -22,8 +22,11 @@ echo "git tag"
 
 PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
 LAST_COMMIT_ID=$(git log --format="%H" -n 1)
+echo "Project ID : $PROJECT_ID"
+echo "Last commit ID : $LAST_COMMIT_ID"
 
-curl --noproxy '*' --header -XPOST "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" | jq .[0].name
+
+curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" | jq .[0].name
 
 
 # curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
