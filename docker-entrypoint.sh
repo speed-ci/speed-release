@@ -15,15 +15,18 @@ INCREMENT=$(conventional-recommended-bump -p angular)
 NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
 
 git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL
-cat CHANGELOG.md
+CHANGELOG=$(cat CHANGELOG.md)
 
 echo "git tag"
 
-REQUEST=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
-echo $REQUEST
-PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
 
-curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
+PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
+LAST_COMMIT_ID=$(git log --format="%H" -n 1)
+
+curl --noproxy '*' --header -XPOST "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" | jq .[0].name
+
+
+# curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
 
 
 git status
