@@ -13,6 +13,8 @@ PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
 INCREMENT=$(conventional-recommended-bump -p angular)
 NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
 
+ls -l /
+cat /template.md
 git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL -tpl /template.md
 CHANGELOG=$(cat CHANGELOG.md && rm CHANGELOG.md)
 
