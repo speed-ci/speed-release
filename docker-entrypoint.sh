@@ -13,7 +13,7 @@ PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
 INCREMENT=$(conventional-recommended-bump -p angular)
 NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
 
-git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL
+git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL -tpl "/template.md"
 CHANGELOG=$(cat CHANGELOG.md && rm CHANGELOG.md)
 
 PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
