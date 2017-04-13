@@ -4,6 +4,8 @@ set -e
 GITLAB_TOKEN="okb1eijUAWbeq6Ysi7G7"
 GITLAB_URL="https://gitlab-poc.sln.nc"
 GITLAB_API_URL="$GITLAB_URL/api/v4"
+echo $GITLAB_API_URL
+
 
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 APP_NAME=${REPO_URL##*/}
@@ -17,6 +19,8 @@ cat CHANGELOG.md
 
 echo "git tag"
 
+REQUEST=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME"`
+echo $REQUEST
 PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
 
 curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
