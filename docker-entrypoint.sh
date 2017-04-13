@@ -4,7 +4,6 @@ set -e
 GITLAB_TOKEN="okb1eijUAWbeq6Ysi7G7"
 GITLAB_URL="https://gitlab-poc.sln.nc"
 GITLAB_API_URL="$GITLAB_URL/api/v4"
-echo $GITLAB_API_URL
 
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 APP_NAME=${REPO_URL##*/}
