@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+curl --help
+
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
