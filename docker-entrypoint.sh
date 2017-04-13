@@ -1,12 +1,6 @@
 #!/bin/bash
 set -e
 
-gitlab url "https://gitlab-poc.sln.nc"
-gitlab token "okb1eijUAWbeq6Ysi7G7"
-gitlab me
-gitlab groups
-gitlab users
-
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
