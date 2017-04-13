@@ -9,9 +9,8 @@ REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*
 APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
 NB_NEW_COMMITS=`git log $PREVIOUS_TAG..HEAD --oneline | wc -l`
-echo $NB_NEW_COMMITS
 
-if [ $NB_NEW_COMMITS = 0 ]; then 
+if [[ $NB_NEW_COMMITS = 0 ]] || [[ -z $PREVIOUS_TAG }" ]]; then 
     echo "Aucun nouveau commit depuis la dernière version, release inutile."
 else 
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
