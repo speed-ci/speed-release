@@ -8,7 +8,7 @@ GITLAB_API_URL="$GITLAB_URL/api/v4"
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
-NB_NEW_COMMITS=$(git log 1.0.1..HEAD --oneline | wc -l)
+NB_NEW_COMMITS=`git log $PREVIOUS_TAG..HEAD --oneline | wc -l`
 echo $NB_NEW_COMMITS
 
 if [ $NB_NEW_COMMITS = 0 ]; then 
