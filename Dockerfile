@@ -17,7 +17,7 @@ RUN npm install -g git-semver-tags \
 
 RUN npm ls -g --depth=0
 
-COPY template.md /usr/src/app
+COPY template.md /template.md
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
