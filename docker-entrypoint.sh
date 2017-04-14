@@ -49,9 +49,9 @@ GITLAB_API_URL="$GITLAB_URL/api/v4"
 
 APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
-NB_NEW_COMMITS=`git log $PREVIOUS_TAG..HEAD --oneline | wc -l`
+NB_NEW_COMMITS=`git log $PREVIOUS_TAG --oneline | wc -l`
 
-if [[ $NB_NEW_COMMITS = 0 ]] || [[ -n "$PREVIOUS_TAG" ]]; then 
+if [[ $NB_NEW_COMMITS = 0 ]]; then 
     printinfo "Aucun nouveau commit depuis la dernière version, release inutile."
 else 
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
