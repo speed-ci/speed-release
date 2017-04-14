@@ -23,12 +23,12 @@ printerror () {
 }
 
 init_env () {
-    CONF=/conf/
-    if [ ! -d $CONF ]; then
-        printerror "Impossible de trouver le dossier de configuration $CONF sur le runner"
+    CONF_DIR=/conf/
+    if [ ! -d $CONF_DIR ]; then
+        printerror "Impossible de trouver le dossier de configuration $CONF_DIR sur le runner"
         exit 1
     else
-        source $CONF/variables
+        source $CONF_DIR/variables
     fi
     APP_DIR=/usr/src/app/
     if [ ! -d $APP_DIR ]; then
