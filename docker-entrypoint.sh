@@ -49,9 +49,8 @@ GITLAB_API_URL="$GITLAB_URL/api/v4"
 
 APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
-NB_NEW_COMMITS=`git log $PREVIOUS_TAG --oneline | wc -l`
-TAG_RANGE=${PREVIOUS_TAG..:-""}
 if [ $PREVIOUS_TAG ]; then TAG_RANGE="$PREVIOUS_TAG.."; else TAG_RANGE=""; fi
+NB_NEW_COMMITS=`git log $TAG_RANGE --oneline | wc -l`
 
 printinfo "PREVIOUS_TAG   : $PREVIOUS_TAG"
 printinfo "NB_NEW_COMMITS : $NB_NEW_COMMITS"
