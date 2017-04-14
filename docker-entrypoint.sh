@@ -44,7 +44,7 @@ init_env () {
 init_env
 
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
-GITLAB_URL=`$REPO_URL | grep -o 'https\?://[^/]\+/'`
+GITLAB_URL=`echo $REPO_URL | grep -o 'https\?://[^/]\+/'`
 GITLAB_API_URL="$GITLAB_URL/api/v4"
 
 APP_NAME=${REPO_URL##*/}
