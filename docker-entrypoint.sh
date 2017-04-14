@@ -52,7 +52,7 @@ PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
 NB_NEW_COMMITS=`git log $PREVIOUS_TAG..HEAD --oneline | wc -l`
 
 if [[ $NB_NEW_COMMITS = 0 ]] || [[ -n "$PREVIOUS_TAG" ]]; then 
-    echo "Aucun nouveau commit depuis la dernière version, release inutile."
+    printinfo "Aucun nouveau commit depuis la dernière version, release inutile."
 else 
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
     INCREMENT=$(conventional-recommended-bump -p angular)
