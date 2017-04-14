@@ -51,6 +51,7 @@ APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
 NB_NEW_COMMITS=`git log $PREVIOUS_TAG --oneline | wc -l`
 TAG_RANGE=${PREVIOUS_TAG..:-""}
+if [ $PREVIOUS_TAG ]; then TAG_RANGE="$PREVIOUS_TAG.."; else TAG_RANGE=""; fi
 
 printinfo "PREVIOUS_TAG   : $PREVIOUS_TAG"
 printinfo "NB_NEW_COMMITS : $NB_NEW_COMMITS"
