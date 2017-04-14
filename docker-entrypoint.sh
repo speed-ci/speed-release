@@ -34,10 +34,8 @@ init_env () {
     if [ ! -d $APP_DIR ]; then
         printerror "Impossible de trouver le dossier du code source de l'application $APP_DIR sur le runner"
         exit 1
-    else
-        source $CONF/variables
     fi    
-    if [[ -n $GITLAB_TOKEN ]];then
+    if [[ -z $GITLAB_TOKEN ]];then
         echo "La variable GITLAB_TOKEN n'est pas présente, sortie..."
         exit 1
     fi
