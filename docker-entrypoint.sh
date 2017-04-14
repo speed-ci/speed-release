@@ -60,6 +60,7 @@ else
     
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
     CHANGELOG=$(cat CHANGELOG.md && rm CHANGELOG.md)
+    msee CHANGELOG.md
     
     PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
     LAST_COMMIT_ID=$(git log --format="%H" -n 1)
