@@ -13,7 +13,8 @@ RUN npm config set registry https://artifactory-poc.sln.nc/artifactory/api/npm/n
 RUN npm install -g git-semver-tags \
                    conventional-recommended-bump \
                    semver \
-                   git-changelog
+                   git-changelog \
+                   msee
 
 RUN npm ls -g --depth=0
 
