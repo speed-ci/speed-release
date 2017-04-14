@@ -51,6 +51,9 @@ APP_NAME=${REPO_URL##*/}
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
 NB_NEW_COMMITS=`git log $PREVIOUS_TAG --oneline | wc -l`
 
+printinfo "PREVIOUS_TAG   : $PREVIOUS_TAG"
+printinfo "NB_NEW_COMMITS : $NB_NEW_COMMITS"
+
 if [[ $NB_NEW_COMMITS = 0 ]]; then 
     printinfo "Aucun nouveau commit depuis la dernière version, release inutile."
 else 
