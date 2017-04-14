@@ -36,7 +36,7 @@ init_env () {
         exit 1
     fi    
     if [[ -z $GITLAB_TOKEN ]];then
-        echo "La variable GITLAB_TOKEN n'est pas présente, sortie..."
+        printerror "La variable GITLAB_TOKEN n'est pas présente, sortie..."
         exit 1
     fi
 }
