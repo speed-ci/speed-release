@@ -64,7 +64,7 @@ else
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
     
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
-    CHANGELOG=`cat CHANGELOG.md | sed -e "s/'/'\\\\''/g; 1s/^/'/; \$s/\$/'/"`
+    CHANGELOG=$(cat CHANGELOG.md | sed "s/'/\\\'/g")
     msee CHANGELOG.md
     rm CHANGELOG.md
     
