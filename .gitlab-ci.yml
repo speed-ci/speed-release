@@ -1,3 +1,6 @@
+variables:
+  ARGS: "--no-cache"
+
 stages:
   - dockerize
 dockerize:
