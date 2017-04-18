@@ -74,8 +74,8 @@ else
     printinfo "INCREMENT       : $INCREMENT"
     printinfo "NEXT_TAG        : $NEXT_TAG"
     printinfo "LAST_COMMIT_ID  : $LAST_COMMIT_ID"
-    printinfo "GITLAB_API_URL : $$GITLAB_API_URL"
-    printinfo "PROJECT_ID  : $PROJECT_ID"
+    printinfo "GITLAB_API_URL  : $GITLAB_API_URL"
+    printinfo "PROJECT_ID      : $PROJECT_ID"
     
     DATE=`(date)`
     curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" -d "message=$DATE" | jq .
