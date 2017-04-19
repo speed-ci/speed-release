@@ -64,12 +64,11 @@ else
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
     
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
-    CHANGELOG=$(cat CHANGELOG.md | sed -e "s/%//g")
+    CHANGELOG=$(cat CHANGELOG.md)
     CHANGELOG=$(head -n 28 CHANGELOG.md)
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
-    rm CHANGELOG.md
-    
+
     PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
     LAST_COMMIT_ID=$(git log --format="%H" -n 1)
     
