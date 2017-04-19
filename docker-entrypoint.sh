@@ -43,7 +43,7 @@ init_env () {
 
 init_env
 
-REPO_URL=$(git config --get remote.origin.url | sed "s/'//g" | sed "s/\"//g)
+REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
 GITLAB_URL=`echo $REPO_URL | grep -o 'https\?://[^/]\+/'`
 GITLAB_API_URL="$GITLAB_URL/api/v4"
 
@@ -64,7 +64,7 @@ else
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
     
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
-    CHANGELOG=$(cat CHANGELOG.md | sed "s/'/\\\'/g" | sed "s/\"/\\\\\"/g" )
+    CHANGELOG=$(cat CHANGELOG.md | sed 's/'/\\\'/g' | sed 's/\"/\\\\\"/g' )
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
     rm CHANGELOG.md
