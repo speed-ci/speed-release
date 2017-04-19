@@ -65,7 +65,7 @@ else
     
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
     CHANGELOG="$(cat CHANGELOG.md | sed -e "s/'/\\\'/g" -e 's/"/\\"/g')"
-    CHANGELOG=$(echo $CHANGELOG | cut -d "### Features" -f 1)
+    CHANGELOG=${CHANGELOG##*# Features"}
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
     rm CHANGELOG.md
