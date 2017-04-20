@@ -41,6 +41,8 @@ init_env () {
     fi
 }
 
+printmainstep "Création d'une nouvelle version de l'application"
+printstep "Vérification des paramètres d'entrée"
 init_env
 
 REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*:.*@/\/\//g')
@@ -52,9 +54,8 @@ PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
 if [ $PREVIOUS_TAG ]; then TAG_RANGE="$PREVIOUS_TAG.."; else TAG_RANGE=""; fi
 NB_NEW_COMMITS=`git log $TAG_RANGE --oneline | wc -l`
 
-printinfo "PREVIOUS_TAG   : $PREVIOUS_TAG"
-printinfo "NB_NEW_COMMITS : $NB_NEW_COMMITS"
-printinfo "TAG_RANGE      : $TAG_RANGE"
+printinfo "Version précédente         : $PREVIOUS_TAG"
+printinfo "Nombre de nouveaux commits : $NB_NEW_COMMITS"
 
 if [[ $NB_NEW_COMMITS = 0 ]]; then 
     printinfo "Aucun nouveau commit depuis la dernière version, release inutile."
@@ -62,22 +63,21 @@ else
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
     INCREMENT=$(conventional-recommended-bump -p angular)
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
+    PROJECT_ID=`curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
+    LAST_COMMIT_ID=$(git log --format="%H" -n 1)
+
+    printinfo "Incrément de version       : $INCREMENT"
+    printinfo "Nouvelle version           : $NEXT_TAG"
+    printinfo "Commit d'ancrage           : $LAST_COMMIT_ID"
     
+    printstep "Génération du changelog"
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
     CHANGELOG=$(cat CHANGELOG.md)
     CHANGELOG=$(head -n 25 CHANGELOG.md)
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
 
-    PROJECT_ID=`curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
-    LAST_COMMIT_ID=$(git log --format="%H" -n 1)
-    
-    printinfo "INCREMENT       : $INCREMENT"
-    printinfo "NEXT_TAG        : $NEXT_TAG"
-    printinfo "LAST_COMMIT_ID  : $LAST_COMMIT_ID"
-    printinfo "GITLAB_API_URL  : $GITLAB_API_URL"
-    printinfo "PROJECT_ID      : $PROJECT_ID"
-    
+    printstep "Création de la version sur Gitlab"
     DATE=`(date)`
     RESULT=$(curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG") 
     ERROR_MESSAGE=$(echo $RESULT | jq .error)
