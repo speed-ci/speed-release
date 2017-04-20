@@ -81,7 +81,7 @@ else
     DATE=`(date)`
     case $(curl -s -w "%{http_code}" --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG") in
         200) return 0;;
-        *) printerror "Erreur lors de la création de la release Gitlab"
+        *) printerror "Erreur lors de la création de la release Gitlab"; exit 1;;
     esac    
     # curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
 fi
