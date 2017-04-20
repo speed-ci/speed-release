@@ -72,15 +72,12 @@ else
     
     printstep "Génération du changelog"
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
-    CHANGELOG=$(cat CHANGELOG.md | sed -e 's/%/%25/g')
-    echo "release_description=$CHANGELOG"
+    CHANGELOG=$(cat CHANGELOG.md)
     msee CHANGELOG.md
 
     printstep "Création de la version sur Gitlab"
     DATE=`(date)`
-    REQUEST=$("curl -s --noproxy '*' --header \"PRIVATE-TOKEN: $GITLAB_TOKEN\" -XPOST \"$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags\" -d \"id=$PROJECT_ID\" -d \"tag_name=$NEXT_TAG\" -d \"ref=$LAST_COMMIT_ID\" -d \"release_description=$CHANGELOG\"") 
-exit 1
-    RESULT=$(curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG") 
+    RESULT=$(curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" --data-urlencode "release_description=$CHANGELOG") 
     ERROR_MESSAGE=$(echo $RESULT | jq .error)
     if [[ $ERROR_MESSAGE != "null" ]];then
         printerror "Erreur lors de la création de la release Gitlab: $ERROR_MESSAGE"
