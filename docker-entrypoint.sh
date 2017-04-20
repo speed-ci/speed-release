@@ -79,7 +79,7 @@ else
     printinfo "PROJECT_ID      : $PROJECT_ID"
     
     DATE=`(date)`
-    ERROR_MESSAGE=$(curl -s -w "%{http_code}" --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" | jq .error) 
+    ERROR_MESSAGE=$(curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" | jq .error) 
     if [[ -n $ERROR_MESSAGE ]];then
         printerror "Erreur lors de la création de la release Gitlab: $ERROR_MESSAGE"
         exit 1
