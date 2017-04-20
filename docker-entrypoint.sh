@@ -69,7 +69,7 @@ else
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
 
-    PROJECT_ID=`curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
+    PROJECT_ID=`curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
     LAST_COMMIT_ID=$(git log --format="%H" -n 1)
     
     printinfo "INCREMENT       : $INCREMENT"
@@ -79,7 +79,9 @@ else
     printinfo "PROJECT_ID      : $PROJECT_ID"
     
     DATE=`(date)`
-    curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG" | jq .
-    
+    case $(curl -s -w "%{http_code}" --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" -d "release_description=$CHANGELOG") in
+        200) return 0;;
+        *) printerror "Erreur lors de la création de la release Gitlab"
+    esac    
     # curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
 fi
