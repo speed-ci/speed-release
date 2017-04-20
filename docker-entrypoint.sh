@@ -65,7 +65,7 @@ else
     
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
     CHANGELOG=$(cat CHANGELOG.md)
-    CHANGELOG=$(head -n 28 CHANGELOG.md)
+    CHANGELOG=$(head -n 26 CHANGELOG.md)
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
 
