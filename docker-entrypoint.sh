@@ -84,6 +84,7 @@ else
     if [[ $ERROR_MESSAGE != "null" ]];then
         printerror "Erreur lors de la création de la release Gitlab: $ERROR_MESSAGE"
         exit 1
-    fi  
+    fi
+    echo $RESULT
     # curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
 fi
