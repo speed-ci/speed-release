@@ -73,7 +73,7 @@ else
     printstep "Génération du changelog"
     git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
     CHANGELOG=$(cat CHANGELOG.md)
-    CHANGELOG=$(head -n 25 CHANGELOG.md)
+    CHANGELOG=$(head -n 28 CHANGELOG.md)
     echo "release_description=$CHANGELOG"
     msee CHANGELOG.md
 
