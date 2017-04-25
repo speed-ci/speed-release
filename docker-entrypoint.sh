@@ -41,8 +41,6 @@ init_env () {
     fi
 }
 
-GITLAB_TOKEN="xzEqKz5n9xxvoSkzPX_p"
-
 printmainstep "Création d'une nouvelle version de l'application"
 printstep "Vérification des paramètres d'entrée"
 init_env
