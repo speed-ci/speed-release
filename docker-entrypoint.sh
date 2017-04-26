@@ -41,8 +41,10 @@ init_env () {
     fi
 }
 
-ls -l /usr/bin/ | grep docker
+ls -l /usr/local/bin/ | grep docker
 docker ps
+docker info
+which docker
 exit 1
 
 printmainstep "Création d'une nouvelle version de l'application"
