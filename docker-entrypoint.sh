@@ -41,6 +41,9 @@ init_env () {
     fi
 }
 
+docker ps
+exit 1
+
 printmainstep "Création d'une nouvelle version de l'application"
 printstep "Vérification des paramètres d'entrée"
 init_env
