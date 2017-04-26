@@ -41,7 +41,7 @@ init_env () {
     fi
 }
 
-ls -l /usr/local/bin/ | grep docker
+ls -l /usr/bin/ | grep docker
 docker ps
 docker info
 which docker
