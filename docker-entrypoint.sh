@@ -41,7 +41,7 @@ init_env () {
     fi
 }
 
-ll -s /usr/bin/ | grep docker
+ls -l /usr/bin/ | grep docker
 docker ps
 exit 1
 
