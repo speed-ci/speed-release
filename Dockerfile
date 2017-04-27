@@ -28,8 +28,6 @@ RUN yarn global add git-semver-tags \
                     git-changelog \
                     msee
 
-RUN yarn list --depth=0
-
 COPY template.md /template.md
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
