@@ -5,9 +5,11 @@ ARG NODE_VERSION=6.9.2-r1
 
 ENV PATH /root/.yarn/bin:$PATH
 
+RUN apk --no-cache add git curl jq bash yarn
+
 RUN apk add --update --no-cache nodejs=${NODE_VERSION} \
 	&& touch ~/.bashrc \
-	&& apk add --no-cache --virtual .build-deps-yarn tar curl bash gnupg git jq  \
+	&& apk add --no-cache --virtual .build-deps-yarn tar gnupg  \
 	&& rm -rf /var/cache/apk/* \
 	&& curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version ${YARN_VERSION} \
 	&& apk del .build-deps-yarn \
