@@ -1,7 +1,7 @@
 FROM docker-artifactory-poc.sln.nc/docker:17.03.0-ce
 
-ARG YARN_VERSION=0.19.1
-ARG NODE_VERSION=6.10.1-alpine
+ARG YARN_VERSION=0.23.2
+ARG NODE_VERSION=6.10.1-r0
 
 ENV PATH /root/.yarn/bin:$PATH
 
