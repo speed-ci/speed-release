@@ -5,7 +5,7 @@ ARG NODE_VERSION=6.9.2-r1
 
 ENV PATH /root/.yarn/bin:$PATH
 
-RUN apk --no-cache add git curl jq bash yarn
+RUN apk --no-cache add git curl jq bash
 
 RUN apk add --update --no-cache nodejs=${NODE_VERSION} \
 	&& touch ~/.bashrc \
