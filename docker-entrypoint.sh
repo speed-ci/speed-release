@@ -41,12 +41,6 @@ init_env () {
     fi
 }
 
-ls -l /usr/bin/ | grep docker
-docker ps
-docker info
-which docker
-exit 1
-
 printmainstep "Création d'une nouvelle version de l'application"
 printstep "Vérification des paramètres d'entrée"
 init_env
