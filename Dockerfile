@@ -22,6 +22,4 @@ COPY template.md /template.md
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-RUN COPY /usr/bin/docker /usr/bin/docker
-
 CMD ["/docker-entrypoint.sh"]
