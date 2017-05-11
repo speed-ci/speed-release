@@ -28,7 +28,7 @@ init_env () {
         printerror "Impossible de trouver le dossier de configuration $CONF_DIR sur le runner"
         exit 1
     else
-        source $CONF_DIR/variables
+        source $CONF_DIR/.env
     fi
     APP_DIR=/usr/src/app/
     if [ ! -d $APP_DIR ]; then
