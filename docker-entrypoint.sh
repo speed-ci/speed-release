@@ -30,7 +30,7 @@ init_env () {
     else
         source $CONF_DIR/.env
     fi
-    APP_DIR=/usr/src/app/
+    APP_DIR=/srv/speed
     if [ ! -d $APP_DIR ]; then
         printerror "Impossible de trouver le dossier du code source de l'application $APP_DIR sur le runner"
         exit 1
