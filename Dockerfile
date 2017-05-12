@@ -2,8 +2,8 @@ FROM docker-artifactory-poc.sln.nc/node:6.10.1-alpine
 
 # Setup release folder
 RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-VOLUME /usr/src/app
+WORKDIR /srv/speed
+VOLUME /srv/speed
 
 RUN apk --no-cache add git curl jq bash
 
