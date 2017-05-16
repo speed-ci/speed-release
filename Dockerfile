@@ -1,4 +1,4 @@
-FROM docker-artifactory-poc.sln.nc/node:6.10.1-alpine
+FROM docker-artifactory.sln.nc/node:6.10.1-alpine
 
 # Setup release folder
 RUN mkdir -p /usr/src/app
@@ -7,7 +7,7 @@ VOLUME /srv/speed
 
 RUN apk --no-cache add git curl jq bash
 
-RUN npm config set registry https://artifactory-poc.sln.nc/artifactory/api/npm/npm/ -g
+RUN npm config set registry https://artifactory.sln.nc/artifactory/api/npm/npm/ -g
 
 # Install release tools
 RUN npm install -g git-semver-tags \
