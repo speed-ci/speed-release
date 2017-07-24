@@ -63,7 +63,7 @@ else
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
     INCREMENT=$(conventional-recommended-bump -p angular)
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
-    PROJECT_ID=`curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
+    PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
     LAST_COMMIT_ID=$(git log --format="%H" -n 1)
 
     printinfo "Incrément de version       : $INCREMENT"
@@ -77,12 +77,5 @@ else
 
     printstep "Création de la version sur Gitlab"
     DATE=`(date)`
-    RESULT=$(curl -s --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" --data-urlencode "release_description=$CHANGELOG") 
-    ERROR_MESSAGE=$(echo $RESULT | jq .error)
-    if [[ $ERROR_MESSAGE != "null" ]];then
-        printerror "Erreur lors de la création de la release Gitlab: $ERROR_MESSAGE"
-        exit 1
-    fi
-    echo $RESULT
-    # curl --noproxy '*' --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" | jq .[0].name
+    RESULT=$(myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" -XPOST "$GITLAB_API_URL/projects/$PROJECT_ID/repository/tags" -d "id=$PROJECT_ID" -d "tag_name=$NEXT_TAG" -d "ref=$LAST_COMMIT_ID" --data-urlencode "release_description=$CHANGELOG") 
 fi
