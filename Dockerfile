@@ -7,7 +7,9 @@ VOLUME /srv/speed
 
 RUN apk --no-cache add git curl jq bash
 
-RUN npm config set registry https://artifactory.sln.nc/artifactory/api/npm/npm/ -g
+RUN curl --noproxy '*' -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD $ARTIFACTORY_URL/artifactory/api/npm/auth > ~/.npmrc && \
+    npm config set registry $ARTIFACTORY_URL/artifactory/api/npm/npm/ -g && \
+    npm set strict-ssl false
 
 # Install release tools
 RUN npm install -g git-semver-tags \
