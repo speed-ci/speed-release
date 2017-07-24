@@ -7,6 +7,10 @@ VOLUME /srv/speed
 
 RUN apk --no-cache add git curl jq bash
 
+ARG ARTIFACTORY_URL
+ARG ARTIFACTORY_USER
+ARG ARTIFACTORY_PASSWORD
+
 RUN curl --noproxy '*' -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD $ARTIFACTORY_URL/artifactory/api/npm/auth > ~/.npmrc && \
     npm config set registry $ARTIFACTORY_URL/artifactory/api/npm/npm/ -g && \
     npm set strict-ssl false
