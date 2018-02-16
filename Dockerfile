@@ -18,6 +18,7 @@ RUN curl --noproxy '*' -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD $ARTIFACTORY_U
 # Install release tools
 RUN npm install -g git-semver-tags \
                    conventional-recommended-bump \
+                   conventional-changelog-angular \
                    semver \
                    git-changelog \
                    msee
