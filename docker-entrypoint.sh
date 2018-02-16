@@ -62,7 +62,10 @@ REPO_URL=$(git config --get remote.origin.url | sed 's/\.git//g' | sed 's/\/\/.*
 GITLAB_URL=`echo $REPO_URL | grep -o 'https\?://[^/]\+/'`
 GITLAB_API_URL="$GITLAB_URL/api/v4"
 
-APP_NAME=${REPO_URL##*/}
+PROJECT_NAME=${REPO_URL##*/}
+PROJECT_NAMESPACE_URL=${REPO_URL%/$PROJECT_NAME}
+PROJECT_NAMESPACE=${PROJECT_NAMESPACE_URL##*/}
+
 PREVIOUS_TAG=$(git-semver-tags | sed '1 ! d')
 if [ $PREVIOUS_TAG ]; then TAG_RANGE="$PREVIOUS_TAG.."; else TAG_RANGE=""; fi
 NB_NEW_COMMITS=`git log $TAG_RANGE --oneline | wc -l`
@@ -76,7 +79,7 @@ else
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
     INCREMENT=$(conventional-recommended-bump -p angular)
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
-    PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$APP_NAME" | jq .[0].id`
+    PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$PROJECT_NAME" | jq --arg project_namespace "$PROJECT_NAMESPACE" '.[] | select(.namespace.name == "\($project_namespace)") | .id'`
     LAST_COMMIT_ID=$(git log --format="%H" -n 1)
 
     printinfo "Incrément de version       : $INCREMENT"
@@ -84,7 +87,7 @@ else
     printinfo "Commit d'ancrage           : $LAST_COMMIT_ID"
     
     printstep "Génération du changelog"
-    git-changelog -a $APP_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
+    git-changelog -a $PROJECT_NAME -n $NEXT_TAG -r $REPO_URL --template "/template.md"
     CHANGELOG=$(cat CHANGELOG.md)
     msee CHANGELOG.md
 
