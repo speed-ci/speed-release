@@ -79,7 +79,7 @@ else
     PREVIOUS_TAG=${PREVIOUS_TAG:-"0.0.0"}
     INCREMENT=$(conventional-recommended-bump -p angular)
     NEXT_TAG=`semver $PREVIOUS_TAG -i $INCREMENT`
-    PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$PROJECT_NAME" | jq --arg project_namespace "$PROJECT_NAMESPACE" '.[] | select(.namespace.name == "\($project_namespace)") | .id'`
+    PROJECT_ID=`myCurl --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "$GITLAB_API_URL/projects?search=$PROJECT_NAME" | jq --arg project_namespace "$PROJECT_NAMESPACE" --arg project_name "$PROJECT_NAME" '.[] | select(.namespace.name == "\($project_namespace)" and .name == "\($project_name)") | .id'`
     LAST_COMMIT_ID=$(git log --format="%H" -n 1)
 
     printinfo "Incrément de version       : $INCREMENT"
